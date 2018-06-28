@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>待办清单系统</title>
+		<link href="../css/bootstrap/3.3.6/bootstrap.css" rel="stylesheet">
+		<link href="../css/bootstrap/3.3.6/font-awesome.css" rel="stylesheet">
+		<link href="../css/bootstrap/3.3.6/custom.css" rel="stylesheet">
+	</head>
+
+	<body id="body" class="nav-md">
+		<div class="container body" >
+			<div class="main_container">
+				<div class="col-md-3 left_col" >
+					<div class="left_col scroll-view">
+						<div class="navbar nav_title">
+							<a href="#" class="site_title"><i class="fa fa-paw"></i> <span>欢迎使用</span></a>
+						</div>
+						<div class="clearfix"></div>
+						<div class="profile clearfix">
+							<div class="profile_pic">
+								<img src="../images/ygq.jpg" alt="..." class="img-circle profile_img">
+							</div>
+						</div>
+						<br />
+						<div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+							<div id="menu_list">
+								<div class="menu_section">
+									<h3>目 录</h3>
+									<ul class="nav side-menu">
+										<li @click="show_myToday()"><a><i class="glyphicon glyphicon-heart"></i> <span class="menu_span">我的一天</span> </a>
+										</li>
+										<li @click="show_all()"><a><i class="glyphicon glyphicon-home"></i><span class="menu_span">To-Do</span>  </a>
+										</li>
+									</ul>
+								</div>
+								<div class="menu_section">
+									<h3>清 单</h3>
+									<ul class="nav side-menu">
+										<li v-for="list in menu_lists" @click="show_lists(list.name)"><a class="menu_a"><i class="glyphicon glyphicon-list"></i><span class="menu_span">{{ list.name }}</span></a>
+										</li>
+										<li data-toggle="modal" data-target="#list_Modal"><a class="menu_a"><i class="glyphicon glyphicon-plus" ></i><span class="menu_span">添加清单</span></a>
+										</li>
+										
+									</ul>	
+
+								</div>
+							</div>			
+						</div>
+	
+						<div class="sidebar-footer hidden-small">
+							<a data-toggle="tooltip" data-placement="top" title="Settings">
+								<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+							</a>
+							<a data-toggle="tooltip" data-placement="top" title="FullScreen">
+								<span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+							</a>
+							<a data-toggle="tooltip" data-placement="top" title="Lock">
+								<span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+							</a>
+							<a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
+								<span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+							</a>
+						</div>
+					</div>
+				</div>
+
+				<div class="top_nav">
+
+					<div class="nav_menu">
+						<nav>
+							<div class="nav toggle">
+								<a id="menu_toggle"><i class="fa fa-bars"></i></a>
+							</div>
+							<div class="tab_bar">
+								管理系统
+							</div>
+						</nav>
+					</div>
+					<div class="right_col" role="main" >
+						<div class="" >
+							<div id="top_bar">
+								<div class="page-title" >
+									<div class="title_left" >
+										<h3>{{ title }}</h3>
+									</div>
+									<div class="title_right" >
+										<div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+											<div class="input-group">
+												<input type="text" class="form-control" placeholder="Search for..." v-model="search_name">
+												<span class="input-group-btn">
+													<button class="btn btn-default" type="button" @click="serach_matter()">Go!</button>
+												</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						
+						<div id="app" class="container" >
+							<div v-bind:class="{'class111': add}">
+								<div class="main">
+									<ul class="todo-list">
+										<li v-for="(matter,index) in show_matter" v-bind:id="matter.id" :class="{completed:matter.isChecked}" @contextmenu.prevent="contextmenu(matter.id)" @dblclick="addMatter(matter.id)" style="height: 60px;">
+											<a>
+												<div>
+													<input class="toggle" type="checkbox" v-model="matter.isChecked"/>
+												
+												</div>
+												<div class="app_matter">
+													<div class="app_matter_name">
+														<span >{{ matter.name }}</span>
+													<span class="glyphicon glyphicon-registration-mark app_matter_date" > {{ matter.date_year }}</span>
+													</div>
+													<div v-bind:class="{'class114':!matter.isChecked,'class113':matter.isChecked}">
+														<span class="app_matter_span">{{ matter.situation }}</span>
+														<span class="app_matter_span">剩余{{ matter.remaining_time }}天</span>
+													</div>
+													<div v-bind:class="{'class114':matter.isChecked,'class113': !matter.isChecked}">
+														<span class="app_matter_span">已完成</span>
+													</div>
+												</div>									
+											</a>
+										</li>			
+										<li class="todo">
+										
+												<div class="app_add_div"  data-toggle="modal" data-target="#myModal">
+													<i class="glyphicon glyphicon-plus app_add_i"></i>
+													<a class="app_add_a">
+														添加事项
+													</a>											
+												</div>										
+											<form method="post" action="" class="form-horizontal" role="form" id="myForm" target="nm_iframe" onsubmit="return ">
+											        <div class="modal fade" id="myModal"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+											            <div class="modal-dialog">
+											                <div class="modal-content">
+											                    <div class="btn-info modal-header">
+											                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+											                        <h4>添加事项</h4>
+											                    </div>
+											                    <div class="modal-body">
+											                        <form class="form-horizontal" role="form" action="/" method="post">
+											                            <div class="form-group">
+											                                <span for="uname" class="col-sm-2 control-label">名称</span>
+											                                <div class="col-sm-8">
+											                                    <input type="text" id="uname" name="uname" class="form-control" placeholder="请输入事项名称" value=""/>
+											                                </div>
+											                            </div>
+											                            <div class="form-group">
+											                            	<span for="upwd" class="col-sm-2 control-label">日期</span>
+														                     <div class="col-sm-8">
+											                                    <input type="date" id="add_date" class="form-control" />
+											                                </div>
+														                </div>
+											                            <div class="form-group">
+											                                <span for="uname" class="col-sm-2 control-label">备注</span>
+											                                <div class="col-sm-8">
+											                                    <input type="text" id="message" name="message" class="form-control" placeholder="输入备注" value=""/>
+											                                </div>
+											                            </div>
+											                    </div>
+											                    <div class="modal-footer">
+											                        <button type="submit" class="btn btn-info" v-on:click="SendForm()" data-dismiss="modal">确定</button>
+											                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+											                    </div>
+											                </div>
+											            </div>
+											        </div> 
+											    </form>
+											    <iframe id="id_iframe" name="nm_iframe" style="display:none;"></iframe>  
+										</li>							
+									</ul>
+								</div>
+							</div>
+							<div class="client_menu" id="clientMenu">
+								<div class="client_menu_option"><a href="javascript:void(0)" @click="menu_add_today()">
+									<div class="client_menu_icon">
+										1
+									</div>
+									<div class="client_menu_text">
+									添加到我的一天
+									</div>
+								</a></div>
+									
+								<div class="client_menu_option_underline"><a href="javascript:void(0)" @click="finish()">
+									<div class="client_menu_icon">
+										2
+									</div>
+									<div class="client_menu_text">
+									标记为已完成
+									</div>
+								</a></div>
+								<div class="client_menu_option"><a href="javascript:void(0)">
+									<div class="client_menu_icon">
+										3
+									</div>
+									<div class="client_menu_text">
+									今天到期 
+									</div>
+								</a></div>
+								<div class="client_menu_option"><a href="javascript:void(0)">
+									<div class="client_menu_icon">
+										4
+									</div>
+									<div class="client_menu_text">
+									明天到期
+									</div>
+								</a></div>
+								<div class="client_menu_option_underline"><a href="javascript:void(0)">
+									<div class="client_menu_icon">
+										5
+									</div>
+									<div class="client_menu_text">
+									删除截止日期 
+									</div>
+								</a></div>
+								<div class="client_menu_option"><a href="javascript:void(0)">
+									<div class="client_menu_icon">
+										6
+									</div>
+									<div class="client_menu_text">
+									从此待办事项创建新清单
+									</div>
+								</a></div>
+								<div class="client_menu_option"><a href="javascript:void(0)">
+									<div class="client_menu_icon">
+										7
+									</div>
+									<div class="client_menu_text">
+									移动待办事项到...
+									</div>
+								</a></div>
+								<div class="client_menu_option_underline"><a href="javascript:void(0)">
+									<div class="client_menu_icon">
+										8
+									</div>
+									<div class="client_menu_text">
+									Copy to-do to
+									</div>
+								</a></div>
+								<div class="client_menu_option"><a href="javascript:void(0)" @click="deletematter()">
+									<div class="client_menu_icon">
+										9
+									</div>
+									<div class="client_menu_text">
+									删除所选代办事项
+									</div>
+								</a></div>
+							</div>
+							<div v-bind:class="{'class112': openAdd,'class113': !openAdd}">
+								<div class="div1_height">
+									<input class="toggle div1_input" type="checkbox"/>
+									<div class="div1_input">
+										<span class="div1_span">
+											{{ cur_name.name }}
+										</span>
+									</div>
+								</div>
+								<div class="div1_height">
+									<div class="div2_div">
+										 <span class="glyphicon glyphicon-plus div2_div_span" ></span>
+									</div>
+									<div class="div1_height div1_input">
+										<span class="div2_span">添加步骤</span>
+									</div>
+								</div>
+								<div class="div4_div">
+									<div class="div3_div" v-on:click="add_my_day()"><a href="javascript:void(0)">
+										<div class="div2_div">
+											<span class="glyphicon glyphicon-heart div3_span" ></span>
+										</div>
+										<div class="div1_height div1_input">
+											<span class="div2_span div1_height">添加到我的一天</span>
+										</div></a>
+										
+									</div>
+									<div class="div5">
+										<div class="div3_div">
+											<div class="div2_div">
+												<span class="glyphicon glyphicon-adjust div3_span" ></span>
+											</div>
+											<div class="div1_height div1_input">
+												<span class="div2_span div1_height">提醒我</span>
+											</div>	
+										</div>
+										<div class="div3_div">
+											<div class="div2_div">
+												<span class="glyphicon glyphicon-list-alt div3_span"></span>
+											</div>
+											<div class="div6">
+												<span class="div2_span div1_height">2018年到期</span>
+											</div>	
+										</div>
+										<div class="div3_div">
+											<div class="div2_div">
+												<span class="glyphicon glyphicon-record div3_span"></span>
+											</div>
+											<div class="div1_height div1_input">
+												<span class="div2_span div1_height">重复</span>
+											</div>	
+										</div>
+									</div>
+									<div class="div7">
+										<input class="div7_input" type="" name="" value="添加备注"/>
+									</div>
+									<div class="container div8">
+										<button type="button" class="btn btn-default btn-sm div9" v-on:click="callback()">确定</button>
+										<button type="button" class="btn btn-default btn-sm div10" v-on:click="callback()">返回</button>
+									</div>
+									
+								</div>
+								
+							</div>
+							<form method="post" action="" class="form-horizontal" role="form" id="list_form" target="nm_iframe" onsubmit="return ">
+							<div class="modal fade" id="list_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" 
+													aria-hidden="true">×
+											</button>
+											<h4 class="modal-title" id="list_myModalLabel">
+												添加清单
+											</h4>
+										</div>
+										<div class="modal-body">
+											 <div class="form-group">
+				                                <label for="uname" class="col-sm-2 control-label">名称</label>
+				                                <div class="col-sm-9">
+				                                    <input type="text" id="list_name" name="list_name" class="form-control well" placeholder="请输入清单名称"/>
+				                                </div>
+				                            </div>
+										</div>
+										<div class="modal-footer">
+					                        <button type="submit" class="btn btn-info" v-on:click="SendFormList()" data-dismiss="modal">确定</button>
+					                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					                    </div>
+								</div>
+							</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				</div>
+				<!-- top navigation -->
+			</div>
+		</div>
+
+		<!-- jQuery -->
+		<script src="../js/jquery/2.0.0/jquery.min.js"></script>
+		<!-- Bootstrap -->
+		<script src="../js/bootstrap/3.3.6/bootstrap.min.js"></script>
+		<!-- FastClick -->
+		<script src="../js/fastclick/lib/fastclick.js"></script>
+		<!-- NProgress -->
+		<script src="../js/nprogress/nprogress.js"></script>
+		<!-- Chart.js -->
+		<script src="../js/Chart.js/dist/Chart.min.js"></script>
+		<!-- Custom Theme Scripts -->
+		<script src="../js/js/custom.min.js"></script>
+	
+	</body>
+
+<script src="../js/js/vue.js"></script>
+<script src="../js/js/ygq.js"></script>
+<script>
+	var clientMenu = document.getElementById('clientMenu');
+	function menuEvent(event){
+		if(event.clientX + 242 > screen.availWidth){
+			clientMenu.style.left = event.clientX - 242 + 'px';
+		}else{
+			clientMenu.style.left = event.clientX + 'px';
+		}
+		if(event.clentY + 122 > screen.availHeight){
+			clientMenu.style.top = event.clientY - 122 + 'px';
+		}else{
+			clientMenu.style.top = event.clientY + 'px';
+		}
+		clientMenu.style.visibility = 'visible';
+		return false;
+	}
+	function hiddenMenu(){
+		clientMenu.style.visibility = 'hidden';
+	}
+	function defaultMenu(){
+		return false;
+	}
+	function init(string){
+		var container = document.getElementById(string);
+		container.oncontextmenu = menuEvent;
+		clientMenu.oncontextmenu = defaultMenu;
+	}
+	function hello(){
+
+	}
+</script>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>待办清单系统</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="../js/jquery/2.0.0/jquery.min.js"></script>
+    <script src="../js/bootstrap/3.3.6/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="../css/bootstrap/3.3.6/amazeui.min.css" />
+	<link rel="stylesheet" href="../css/bootstrap/3.3.6/admin.css">
+	<link rel="stylesheet" href="../css/bootstrap/3.3.6/app.css">
+</head>
+<body data-type="login">
+	<div class="am-g myapp-login">
+		<div class="myapp-login-logo-block  tpl-login-max">
+			<div class="myapp-login-logo-text">
+				<div class="myapp-login-logo-text">
+					待办清单系统<span> Login</span>	
+				</div>
+			</div>
+
+			<div class="login-font">
+				<i>Log In </i> or <span> Sign Up</span>
+			</div>
+			<div class="am-u-sm-10 login-am-center">
+				<div class="am-form">
+					<fieldset>
+						<div class="am-form-group">
+							<input type="text" class="" id="user" placeholder="输入账户名"/>
+						</div>
+						<div class="am-form-group">
+							<input type="password" class="" id="password" placeholder="输入密码"/>
+						</div>
+						<p><button type="submit" onclick="login()" class="am-btn am-btn-default">登录</button></p>
+					</fieldset>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		function login(){
+			var user = document.getElementById('user').value;
+			var password = document.getElementById('password').value;
+			if(user==='admin'&&password==='123'){
+				window.location.replace('./index.html');
+			}
+		}
+		$(function() {
+		　　if (window.history && window.history.pushState) {
+		　　$(window).on('popstate', function () {
+		　　window.history.pushState('forward', null, '#');
+		　　window.history.forward(1);
+		　　});
+		　　}
+		　　window.history.pushState('forward', null, '#'); 
+		　　window.history.forward(1);
+	　　})
+	</script>
+
+</body>
+</html>
