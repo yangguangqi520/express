@@ -1,7 +1,5 @@
 # express
-web
-# vue-todo-list
->**vue-todo-list**是综合使用vue，bootstarp，node的一个小规模的个人使用网站，能够实现对事项的规划和安排。其中有很多的不足之处，欢迎指正！
+>**to-do-list**是综合使用vue，bootstarp，express的网站。
 
 ### 运行
 ``` bash
