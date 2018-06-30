@@ -23,7 +23,6 @@ node express_demo.js
 	
 ## 项目目的
 ``` bash
-cd express
 1、掌握express与node的应用，并搭建服务。
 2、掌握bootstrap与css3的应用，构建前端页面。
 3、掌握Vue的用法，设计出页面所需要的数据。
