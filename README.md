@@ -8,10 +8,10 @@ cd express
 # 本地运行
 node express_demo.js
 ```
-### 软件依赖
+## 软件依赖
 >为了确保项目正确运行你需要安装[node.js](https://nodejs.org),[npm](https://www.npmjs.com/)
 
-### 文件结构
+## 文件结构
 * node_modules
 	* 项目所需要的模块
 * public
@@ -21,14 +21,14 @@ node express_demo.js
 * start.js
 	* 项目的启动文件
 	
-### 项目目的
+## 项目目的
 ``` bash
 1、掌握express与node的应用，并搭建服务。
 2、掌握bootstrap与css3的应用，构建前端页面。
 3、掌握Vue的用法，设计出页面所需要的数据。
 4、掌握localStorage本地保存用法，能够实现数据的本地保存。
 ```
-### 项目任务
+## 项目任务
 ``` bash
 完成待办清单系统，前台用html编程实现。 后台用localstorage存储。设计并实现一款待办清单系统。
 待办清单系统具有以下功能：
@@ -43,7 +43,7 @@ node express_demo.js
 9、本地保存。把所有的数据进行本地保存。利用localstorage方法。
 ```
 
-### 开发环境
+## 开发环境
 ``` bash
 1、Sublime Text
 2、安装淘宝npm镜像。
